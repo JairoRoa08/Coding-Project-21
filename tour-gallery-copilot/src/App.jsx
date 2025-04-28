@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import TourCard from './components/TourCard';
+import Gallery from './components/Gallery';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
@@ -34,14 +34,6 @@ function App() {
     setTours(tours.filter((tour) => tour.id !== id));
   };
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
-
-  if (error) {
-    return <h2>Error: {error}</h2>;
-  }
-
   return (
     <>
       <div>
@@ -55,11 +47,7 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <h2>Tours</h2>
-        <div className="tour-list">
-          {tours.map((tour) => (
-            <TourCard key={tour.id} tour={tour} onRemove={removeTour} />
-          ))}
-        </div>
+        <Gallery tours={tours} loading={loading} error={error} onRemove={removeTour} />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
