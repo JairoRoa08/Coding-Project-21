@@ -9,24 +9,24 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchTours = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('https://course-api.com/react-tours-project');
-        if (!response.ok) {
-          throw new Error('Failed to fetch tours');
-        }
-        const data = await response.json();
-        setTours(data);
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchTours = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('https://course-api.com/react-tours-project');
+      if (!response.ok) {
+        throw new Error('Failed to fetch tours');
       }
-    };
+      const data = await response.json();
+      setTours(data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchTours();
   }, []);
 
@@ -47,7 +47,13 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <h2>Tours</h2>
-        <Gallery tours={tours} loading={loading} error={error} onRemove={removeTour} />
+        {tours.length === 0 ? (
+          <button className="refresh-btn" onClick={fetchTours}>
+            Refresh
+          </button>
+        ) : (
+          <Gallery tours={tours} loading={loading} error={error} onRemove={removeTour} />
+        )}
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
